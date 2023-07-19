@@ -1,5 +1,11 @@
 <?php
   include 'lib/secure.php';
+  include 'lib/connect.php';
+  include 'lib/queryArticle.php';
+  include 'lib/article.php';
+
+  $queryArticle = new QueryArticle();
+  $articles = $queryArticle->findAll();
 ?>
 <!doctype html>
 <html lang="ja">
