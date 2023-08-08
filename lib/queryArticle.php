@@ -25,6 +25,23 @@ class QueryArticle extends connect{
     }
   }
 
+  public function find($id){
+    $stmt = $this->dbh->prepare("SELECT * FROM articles WHERE id=:id");
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $article = null;
+    if ($result){
+      $article = new Article();
+      $article->setId($result['id']);
+      $article->setTitle($result['title']);
+      $article->setBody($result['body']);
+      $article->setCreatedAt($result['created_at']);
+      $article->setUpdatedAt($result['updated_at']);
+    }
+    return $article;
+  }
+
   public function findAll(){
     $stmt = $this->dbh->prepare("SELECT * FROM articles");
     $stmt->execute();
