@@ -32,7 +32,7 @@
     $queryArticle = new QueryArticle();
     $article = $queryArticle->find($_POST['id']);
     if ($article){
-      // 記事データが存在していれば、タイトルと本文を変更して上書き保存
+      // 記事データが存在していれば、タイトルと本文を変更して上書き保存 idは変わらない
       $article->setTitle($title);
       $article->setBody($body);
       $article->save();

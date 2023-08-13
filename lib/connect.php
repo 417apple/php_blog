@@ -10,7 +10,7 @@ class connect{
   public function __construct(){
     $dsn = "mysql:host=".self::HOST.";dbname=".self::DB_NAME.";charset=utf8mb4";
     try {
-      // PDOのインスタンスをクラス変数に格納する
+      // PDOのインスタンスをメンバ変数に格納する
       $this->dbh = new PDO($dsn, self::USER, self::PASS);
     } catch(Exception $e){
       // Exceptionが発生したら表示して終了

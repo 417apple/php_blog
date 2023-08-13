@@ -13,6 +13,12 @@ class Article{
     $queryArticle->save();
   }
 
+  public function delete(){
+    $queryArticle = new QueryArticle();
+    $queryArticle->setArticle($this);
+    $queryArticle->delete();
+  }
+
   public function getId(){
     return $this->id;
   }

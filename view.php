@@ -3,16 +3,13 @@
   include 'lib/queryArticle.php';
   include 'lib/article.php';
 
-  $page = 1;
-  $limit = 5;
-
-  // ページ数の決定
-  if (!empty($_GET['page']) && intval($_GET['page']) > 0){
-    $page = intval($_GET['page']);
+  if (!empty($_GET['id'])){
+    $id = intval($_GET['id']);
+    $queryArticle = new QueryArticle();
+    $article = $queryArticle->find($id);
+  } else {
+    $article = null;
   }
-
-  $queryArticle = new QueryArticle();
-  $pager = $queryArticle->getPager($page, $limit);
 ?>
 <!doctype html>
 <html lang="ja">
@@ -51,33 +48,16 @@
     <main class="container">
         <div class="row">
             <div class="col-md-8">
-                <?php if ($pager['articles']): ?>
-                    <?php foreach ($pager['articles'] as $article): ?>
-                      <article class="blog-post">
-                        <h2 class="blog-post-title">
-                          <a href="view.php?id=<?php echo $article->getId() ?>">
-                            <?php echo $article->getTitle() ?>
-                          </a>
-                        </h2>
-                        <p class="blog-post-meta">
-                          <?php echo $article->getCreatedAt() ?>
-                        </p>
-                        <?php echo nl2br($article->getBody()) ?>
-                      </article>
-                    <?php endforeach ?>
+                <?php if ($article): ?>
+                    <article class="blog-post">
+                      <h2 class="blog-post-title"><?php echo $article->getTitle() ?></h2>
+                      <p class="blog-post-meta"><?php echo $article->getCreatedAt() ?></p>
+                      <?php echo nl2br($article->getBody()) ?>
+                    </article>
                 <?php else: ?>
-                  <div class="alert alert-success">
-                    <p>記事はありません。</p>
-                  </div>
-                <?php endif ?>
-                <?php if (!empty($pager['total'])): ?>
-                  <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                      <?php for ($i = 1; $i <= ceil($pager['total'] / $limit); $i++): ?>
-                              <li class="page-item"><a class="page-link" href="index.php?page=<?php echo $i ?>"><?php echo $i ?></a></li>
-                      <?php endfor ?>
-                    </ul>
-                  </nav>
+                    <div class="alert alert-success">
+                      <p>記事はありません。</p>
+                    </div>
                 <?php endif ?>
             </div>
             <div class="col-md-4">
